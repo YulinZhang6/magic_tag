@@ -1,0 +1,6 @@
+opencv-python
+numpy==1.17.0
+Django==2.2.3
+Pillow==8.2.0
+mysqlclient
+django-cors-headers

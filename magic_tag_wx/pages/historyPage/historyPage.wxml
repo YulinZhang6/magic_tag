@@ -1,0 +1,34 @@
+<!--pages/historyPage/historyPage.wxml-->
+<text wx:if="{{current_device_id==-1}}">暂时无选中设备</text>
+
+<view class="map-section" wx:else>
+  <!-- 地图组件 scale缩放比例 markers地图上显示的点 polyline 要画的路径点 初始化是人的位置为中心-->
+  <map class="tx_map" id="tx_map" longitude="{{my_longitude}}" latitude="{{my_latitude}}"
+    subkey="***" show-location="true" scale="12" markers="{{markers}}"
+    polyline="{{poi}}">
+  </map>
+  <!-- 日期选择期-->
+  <mp-cells ext-class="norm-cells" title="日期选择">
+    <mp-cell>
+      <picker mode="date" value="{{date}}" start="2021-04-30" end="{{end_day}}" bindchange="bindDateChange">
+        <view class="picker">
+          当前选择: {{date}}
+        </view>
+      </picker>
+    </mp-cell>
+  </mp-cells>
+
+
+  <!-- 除今日的历史位置 -->
+  <scroll-view class="records" scroll-y="true">
+    <mp-cells ext-class="norm-cells" title="历史位置" wx:if="{{pos_json.length>0}}">
+        <mp-cell hover="true" bindtap="onPosCellTab" wx:for="{{pos_json}}" data-id="{{index}}">
+          <view>{{item.address}}</view>
+          <view slot="footer">{{item.record_time}}</view>
+        </mp-cell>
+    </mp-cells>
+    <mp-cells ext-class="norm-cells" title="历史位置暂无" wx:else/>
+
+  </scroll-view>
+
+</view>

@@ -1,0 +1,35 @@
+<!--pages/uploadPic/uploadPic.wxml-->
+<scroll-view class="page" scroll-y="true" wx:if="{{current_device_id!=-1}}">
+    <view class="page__hd" style="padding-right:80rpx">
+        <text style="font-size:35rpx;padding-bottom:20rpx;">文本上传\n</text>
+        <textarea value="{{uploadText}}" placeholder="请输入要上传的文本"
+            style="background-color:#ededed;width:100%;height:200rpx;margin-top:20rpx;padding-left:20rpx;padding-top:20rpx;"
+            bindinput="onUploadTextChange">
+        </textarea>
+        <view style="padding-top:30rpx;">
+            <button class="mini-btn" type="primary" size="mini" bindtap="onUploadTextTap">上传文本</button>
+        </view>
+    </view>
+    <view class="page__bd">
+        <text style="font-size:35rpx;padding-bottom:20rpx;">上传图片\n\n</text>
+        <image style="width: 96px; height: 96px; padding:10rpx" mode="scaleToFill" src="../../images/uploadPic.png"
+            bindtap="onUploadPicTap" />
+    </view>
+
+    <view class="imagelist" style="padding-top:40rpx" wx:if="{{piclist.length>0}}">
+        <text style="font-size:35rpx;padding-bottom:20rpx;">已有图片\n\n</text>
+        <image style="width: 100px; height: 100px; padding:10rpx" mode="scaleToFill" wx:for="{{piclist}}" src="{{item}}" bindtap="previewImage" bindlongpress="deleteImg" data-id="{{index}}" />
+    </view>
+
+    <mp-dialog title="选择操作" show="{{dialogShow}}" mask="true" bindbuttontap="tapDialogButton"
+        buttons="{{dialogButtons}}">
+        对此图片进行的操作
+    </mp-dialog>
+    <!-- <view class="prev">
+        <mp-gallery show="{{galleryShow}}" bindchange="change" binddelete="deleteImg" bindhide="hide" img-urls="{{piclist}}" hide-on-click="{{true}}" current="{{galleryIndex}}" showmenu="true">
+        </mp-gallery>
+    </view> -->
+</scroll-view>
+<view wx:else>
+    暂时无选中的设备
+</view>

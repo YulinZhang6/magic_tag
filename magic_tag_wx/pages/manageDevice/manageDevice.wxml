@@ -1,0 +1,25 @@
+<!--pages/manageDevice.wxml-->
+<view class="page">
+  <text wx:if="{{devicesList.length==0}}">暂无设备</text>
+  <mp-cells wx:else title="设备信息">
+    <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" wx:for="{{devicesList}}"
+      data-id="{{index}}">
+      <mp-cell hover="true" bindtap="onDevCellTab" data-id="{{index}}">
+        <view style="font-size: 35rpx;">{{item.name}}\n</view>
+        <view wx:if="{{item.IMEIid!=item.name}}" style="color:grey;font-size: 20rpx">{{item.IMEIid}}</view>
+
+        <image wx:if="{{currentIndex==index}}" slot="icon" src="{{selectIconPath}}"
+          style="margin-right: 32rpx;margin-left:15rpx;vertical-align: middle;width:40rpx; height: 40rpx;" />
+        <image wx:else slot="icon" src="{{emptyIconPath}}"
+          style="margin-right: 32rpx;margin-left:15rpx;vertical-align: middle;width:40rpx; height: 40rpx;" />
+        <!-- <view>{{item.name}}\n</view> -->
+      </mp-cell>
+    </mp-slideview>
+  </mp-cells>
+  
+  <mp-dialog title="重命名" show="{{dialogShow}}" mask="true" bindbuttontap="tapDialogButton" buttons="{{dialogButtons}}">
+    <view>
+      <input bindinput="formInputChange" placeholder="请输入自定义设备名称" value="{{renameText}}" />
+    </view>
+  </mp-dialog>
+</view>

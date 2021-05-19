@@ -1,0 +1,104 @@
+<!--pages/firstpage.wxml-->
+<view class="page">
+    <view class="page__hd">
+        <view class="page-bd">
+            <!-- 第一页面 -->
+            <block wx:if="{{index==0}}">
+                <!-- 重命名弹窗 -->
+                <mp-dialog title="重命名" show="{{dialogShow}}" mask="true" bindbuttontap="tapDialogButton"
+                    buttons="{{dialogButtons}}">
+                    <view>
+                        <input bindinput="formInputChange" data-field="rename" class="weui-input" placeholder="请输入自定义名称" value="{{renameText}}" />
+                    </view>
+                </mp-dialog>
+                <scroll-view class="map-section" scroll-y="true">
+                    <!-- 地图组件 scale缩放比例 markers地图上显示的点 polyline 要画的路径点 初始化是人的位置为中心-->
+                    <map class="tx_map" id="tx_map" longitude="{{my_longitude}}" latitude="{{my_latitude}}"
+                        subkey="***" show-location="true" scale="12"
+                        markers="{{markers}}" polyline="{{poi}}">
+                    </map>
+                    <!-- 紧急情况排第一，没有数据不会显示组件 -->
+                    <text wx:if="{{current_device_id==-1}}">暂时无选中设备</text>
+                    <mp-cells ext-class="sos-cells" title="紧急情况" wx:if="{{have_sos}}">
+                        <mp-slideview ext-class="slideview" buttons="{{sos_slideButtons}}"
+                            bindbuttontap="sosslideButtonTap">
+                            <mp-cell bindtap="onPosCellTab" hover="true" data-id="0" data-type="2">
+                                <view>{{sos_json.address}}</view>
+                                <view slot="footer">{{sos_json.record_time}}</view>
+                            </mp-cell>
+                        </mp-slideview>
+                    </mp-cells>
+                    <!-- 设备当前位置不是人的当前位置 -->
+                    <mp-cells ext-class="norm-cells" title="当前位置" wx:if="{{current_device_id!=-1}}">
+                        <mp-cell bindtap="onPosCellTab" hover="true" data-id="0" data-type="3">
+                            <view>{{current_json.address}}</view>
+                            <view slot="footer">{{current_json.record_time}}</view>
+                        </mp-cell>
+                    </mp-cells>
+                    <!-- 收藏的位置，左滑删除的组件 -->
+                    <mp-cells ext-class="norm-cells" title="收藏的位置" wx:if="{{have_star}}">
+                        <mp-slideview ext-class="slideview" buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" wx:for="{{star_json}}" data-id="{{index}}">
+                            <mp-cell hover="true" bindtap="onPosCellTab" data-id="{{index}}" data-type="1">
+                                <view>{{item.address}}</view>
+                            </mp-cell>
+                        </mp-slideview>
+                    </mp-cells>
+                    <!-- 除今日的历史位置 -->
+                    <mp-cells ext-class="norm-cells" title="今日其他历史位置" wx:if="{{pos_json.length>0}}">
+                        <mp-cell hover="true" bindtap="onPosCellTab" wx:for="{{pos_json}}"
+                            data-id="{{index}}" data-type="0">
+                            <view>{{item.address}}</view>
+                            <view slot="footer">{{item.record_time}}</view>
+                        </mp-cell>
+                    </mp-cells>
+                </scroll-view>
+            </block>
+            <!-- 第二页面 -->
+            <block wx:else>
+                <!-- 用户头像和昵称显示 -->
+                <view class="userinfo">
+                    <!-- <image src='{{headImg}}' class='head_img' />
+                    <text class="userinfo-nickname">圣人惠</text> -->
+                    <view class="head_img">
+                        <open-data type="userAvatarUrl"></open-data>
+                    </view>
+                    
+                    <open-data type="userNickName" class="userinfo-nickname"></open-data>
+                </view>
+                <!-- 用户操作列表 -->
+                <scroll-view class="useroper" scroll-y="true">
+                    
+                    <mp-cells ext-class="oper-cells" wx:if="{{current_device_id==-1}}" title="当前选中设备：暂无">
+                        <mp-cell bindtap="onOperCellTab" hover="true" wx:for="{{operList}}" data-id="{{index}}">
+                            <view style="font-size: 35rpx;">{{item.text}}</view>
+                            <image slot="icon" src="{{item.iconPath}}" style="margin-right: 32rpx;margin-left:15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"/>
+                        </mp-cell>
+                    </mp-cells>
+
+                    <mp-cells ext-class="oper-cells" wx:else title="当前选中设备：{{current_device_id}}">
+                        <mp-cell bindtap="onOperCellTab" hover="true" wx:for="{{operList}}" data-id="{{index}}">
+                            <view style="font-size: 35rpx;">{{item.text}}</view>
+                            <image slot="icon" src="{{item.iconPath}}" style="margin-right: 32rpx;margin-left:15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"/>
+                        </mp-cell>
+                    </mp-cells>
+                </scroll-view>
+                <!-- 绑定设备弹窗 -->
+                <mp-dialog title="绑定设备" show="{{bindDeviceDialogShow}}" mask="true" bindbuttontap="tapBindDeviceDialogButton" buttons="{{dialogButtons}}">
+                    <view>
+                        <input bindinput="formInputChange" data-field="rename" class="weui-input" placeholder="请输入设备IMEI号" type="number" maxlength="16" value="{{renameText}}"/>
+                    </view>
+                </mp-dialog>
+                <mp-dialog title="关于我们" show="{{bindAboutDialogShow}}" mask="true" bindbuttontap="tapBindAboutDialogButton" buttons="{{[dialogButtons[1]]}}">
+                    <view>
+                        <text>
+                            如需帮助请联系Magic Tag开发者\nzyl、lzy
+                        </text>
+                    </view>
+                </mp-dialog>
+                
+            </block>
+        </view>
+    </view>
+    <mp-tabbar ext-class="tabber" style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}"
+        bindchange="tabChange" current="{{index}}"></mp-tabbar>
+</view>

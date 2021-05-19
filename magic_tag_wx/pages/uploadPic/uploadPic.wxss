@@ -1,0 +1,7 @@
+/* pages/uploadPic/uploadPic.wxss */
+.page{
+  padding: 30rpx;
+}
+.page__bd{
+  padding-top: 50rpx;
+}

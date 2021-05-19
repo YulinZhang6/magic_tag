@@ -1,0 +1,21 @@
+<!--pages/trackingMode/trackingMode.wxml-->
+<!--pages/historyPage/historyPage.wxml-->
+<text wx:if="{{current_device_id==-1}}">暂时无选中设备</text>
+
+<view class="map-section" wx:else>
+  <!-- 地图组件 scale缩放比例 markers地图上显示的点 polyline 要画的路径点 初始化是人的位置为中心-->
+  <map class="tx_map" id="tx_map" longitude="{{my_longitude}}" latitude="{{my_latitude}}"
+    subkey="***" show-location="{{true}}" scale="12" markers="{{markers}}" 
+    rotate="{{rotateDeg}}">
+  </map>
+  <view style="background-color:rgb(245,245,245);margin-top:80rpx">
+    <mp-cell>
+      <view wx:if="{{switchStatus}}">追踪模式 直线距离：{{distance}}</view>
+      <view wx:else>追踪模式</view>
+      <view slot="footer">
+        <switch checked="{{switchStatus}}" bindchange="switchChange"></switch>
+      </view>
+    </mp-cell>
+  </view>
+
+</view>

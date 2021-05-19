@@ -1,0 +1,58 @@
+/* pages/firstpage.wxss */
+.map-section {
+  box-sizing: border-box;
+  padding: 0 30rpx;
+}
+
+.tx_map {
+  width: 100%;
+  height: 1000rpx;
+}
+
+.page__hd {
+  padding-bottom: 200rpx;
+  /* background-color: #ededed; */
+  /* z-index: 0; */
+}
+
+.sos-cells {
+  color: red;
+}
+
+.tabber {
+  z-index: 10;
+}
+
+.slideview {
+  z-index: 0;
+}
+
+.userinfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  /* position: fixed; */
+  background-color: #ededed;
+  padding-bottom: 10rpx;
+  
+  /* z-index: 10; */
+}
+
+.head_img {
+  width: 150rpx;
+  height: 150rpx;
+  margin: 30rpx;
+  border-radius: 50%;
+  overflow:hidden;
+}
+
+.userinfo-nickname{
+  color: #333333;
+  font-size: 40rpx;
+  padding-left: 20rpx;
+}
+
+.useroper{
+  padding-top: 30rpx;
+}
